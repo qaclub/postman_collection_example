@@ -21,7 +21,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"More than 1 JS library should be returned\"] = jsonData.results.length > 1;",
+									"tests[\"More than 1 JS library should be returned\"] = jsonData.results.length < 1;",
 									"",
 									"var librariesHaveName = true;",
 									"var librariesHaveLatestUrl = true;",
