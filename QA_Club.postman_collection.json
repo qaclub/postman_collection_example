@@ -1,0 +1,189 @@
+{
+	"variables": [],
+	"info": {
+		"name": "QA Club",
+		"_postman_id": "02b0a495-0882-babd-96da-be4fa8fbd93e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CDN_JS",
+			"description": "Tests for https://api.cdnjs.com/",
+			"item": [
+				{
+					"name": "Get list of JS libraries",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"More than 1 JS library should be returned\"] = jsonData.results.length > 1;",
+									"",
+									"var librariesHaveName = true;",
+									"var librariesHaveLatestUrl = true;",
+									"",
+									"for (var i = 0; i < jsonData.results.length; i++) {",
+									"    if (jsonData.results[i].name && jsonData.results[i].name.length < 1) {",
+									"        librariesHaveName = false;",
+									"        break;",
+									"    }",
+									"    ",
+									"    if (jsonData.results[i].latest && jsonData.results[i].latest.length < 1) {",
+									"        librariesHaveLatestUrl = false;",
+									"        break;",
+									"    }",
+									"    ",
+									"    ",
+									"}",
+									"",
+									"tests[\"Each library should have name\"] = librariesHaveName === true;",
+									"tests[\"Each library should have URL for the latest build\"] = librariesHaveName === true;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url_cdnjs}}/libraries/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get details about jQuery library",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Name should not be empty\"] = jsonData.name.length > 0;",
+									"tests[\"Namespace should match 'jQuery'\"] = jsonData.namespace === 'jQuery';",
+									"tests[\"License should match 'MIT'\"] = jsonData.license === 'MIT';",
+									"tests[\"Library should contain at least two keywords\"] = jsonData.keywords.length > 1;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://api.cdnjs.com/libraries/jquery",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NBU",
+			"description": "",
+			"item": [
+				{
+					"name": "GET list of currencies for January, 11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"List should contain more than 1 element\"] = jsonData.length > 1;",
+									"",
+									"var dateMathes = true;",
+									"var isUsdFound = false;",
+									"var isEurFound = false;",
+									"",
+									"for (var i = 0; i < jsonData.length; i++) {",
+									"    if (jsonData[i].cc == 'USD') {",
+									"        isUsdFound = true;",
+									"    }",
+									"    ",
+									"    if (jsonData[i].cc == 'EUR') {",
+									"        isEurFound = true;",
+									"    }",
+									"    ",
+									"    if (jsonData[i].exchangedate != \"11.01.2017\") {",
+									"        dateMathes = false;",
+									"    }",
+									"}",
+									"",
+									"tests[\"Exchange date '11.01.2017' should be returned\"] = dateMathes === true;",
+									"",
+									"tests[\"List should contain rate for USD\"] = isUsdFound === true;",
+									"tests[\"List should contain rate for EUR\"] = isEurFound === true;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url_nbu}}/NBUStatService/v1/statdirectory/exchange?json&date=20170111",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get rate for USD for January, 11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"USD currency should be returned\"] = jsonData[0].cc === 'USD';",
+									"tests[\"Title 'Долар США' should be returned\"] = jsonData[0].txt === 'Долар США';"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url_nbu}}/NBUStatService/v1/statdirectory/exchange?json&valcode=USD&date=20170111",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get rate for EUR for January, 11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"EUR currency should be returned\"] = jsonData[0].cc === 'EUR';",
+									"tests[\"Title 'Євро' should be returned\"] = jsonData[0].txt === 'Євро';"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url_nbu}}/NBUStatService/v1/statdirectory/exchange?json&valcode=EUR&date=20170111",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
