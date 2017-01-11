@@ -143,7 +143,7 @@
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"",
-									"tests[\"USD currency should be returned\"] = jsonData[0].cc === 'USD';",
+									"tests[\"USD currency should be returned\"] = jsonData[0].cc === 'USD2';",
 									"tests[\"Title 'Долар США' should be returned\"] = jsonData[0].txt === 'Долар США';"
 								]
 							}
