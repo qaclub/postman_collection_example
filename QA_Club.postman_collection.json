@@ -103,7 +103,7 @@
 									"var isEurFound = false;",
 									"",
 									"for (var i = 0; i < jsonData.length; i++) {",
-									"    if (jsonData[i].cc == 'USD') {",
+									"    if (jsonData[i].cc == 'USD2') {",
 									"        isUsdFound = true;",
 									"    }",
 									"    ",
